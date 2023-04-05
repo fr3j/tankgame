@@ -5,8 +5,14 @@ import com.github.hanyaeger.api.entities.SceneBorderCrossingWatcher;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.Size;
+import com.github.hanyaeger.api.userinput.KeyListener;
+import javafx.scene.input.KeyCode;
 
-public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWatcher {
+import java.util.Set;
+
+public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWatcher, KeyListener {
+
+    private double angle = 180;
 
     public Player (Coordinate2D location){
 
@@ -19,6 +25,24 @@ public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWa
         setAnchorLocationX(getSceneWidth());
         setAnchorLocationY(getSceneHeight());
     }
+    @Override
+    public void onPressedKeysChange(Set<KeyCode> pressedKeys){
+        if(pressedKeys.contains(KeyCode.LEFT)){
+            setRotationSpeed(1);
 
+        } else if(pressedKeys.contains(KeyCode.RIGHT)){
+            setRotationSpeed(-1);
+
+        } else if(pressedKeys.contains(KeyCode.UP)){
+            setMotion(3,getRotationSpeed());;
+
+        } else if(pressedKeys.contains(KeyCode.DOWN)){
+            setMotion(3,getRotationSpeed());
+
+        } else if(pressedKeys.isEmpty()){
+            setSpeed(0);
+            setRotationSpeed(0);
+        }
+    }
 
 }
