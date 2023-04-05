@@ -12,7 +12,6 @@ import java.util.Set;
 
 public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWatcher, KeyListener {
 
-    private double angle = 180;
 
     public Player (Coordinate2D location){
 
