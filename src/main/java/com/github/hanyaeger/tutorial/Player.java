@@ -1,21 +1,27 @@
 package com.github.hanyaeger.tutorial;
 
 import com.github.hanyaeger.api.Coordinate2D;
+import com.github.hanyaeger.api.entities.Collided;
+import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.SceneBorderCrossingWatcher;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.userinput.KeyListener;
+import com.github.hanyaeger.tutorial.scenes.GameScene;
 import javafx.scene.input.KeyCode;
 
 import java.util.Set;
 
-public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWatcher, KeyListener {
+public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWatcher, KeyListener, Collided {
+    public int angle;
+    public Bullet bullet;
+    private GameScene gamescene;
 
-
-    public Player (Coordinate2D location){
+    public Player (Coordinate2D location, GameScene gamescene){
 
         super("sprites/tank.png", location, new Size(40,40));
+        this.gamescene = gamescene;
     }
 
 
@@ -25,23 +31,48 @@ public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWa
         setAnchorLocationY(getSceneHeight());
     }
     @Override
-    public void onPressedKeysChange(Set<KeyCode> pressedKeys){
-        if(pressedKeys.contains(KeyCode.LEFT)){
-            setRotationSpeed(1);
+    public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
+        int rotationAngle = 10;
+        double rotationAnimation = 1.35;
 
-        } else if(pressedKeys.contains(KeyCode.RIGHT)){
-            setRotationSpeed(-1);
-
-        } else if(pressedKeys.contains(KeyCode.UP)){
-            setMotion(3,getRotationSpeed());;
-
-        } else if(pressedKeys.contains(KeyCode.DOWN)){
-            setMotion(3,getRotationSpeed());
-
-        } else if(pressedKeys.isEmpty()){
+        if (pressedKeys.contains(KeyCode.LEFT)) {
+            setRotationSpeed(rotationAnimation);
+            setAngle(getAngle() + rotationAngle);
+        } else if (pressedKeys.contains(KeyCode.RIGHT)) {
+            setRotationSpeed(-rotationAnimation);
+            setAngle(getAngle() - rotationAngle);
+        } else if (pressedKeys.contains(KeyCode.UP)) {
+            setMotion(3, getAngle());
+            setRotationSpeed(0);
+            setAngle(getAngle());
+        } else if (pressedKeys.contains(KeyCode.DOWN)) {
+            setMotion(3, getAngle());
+            setRotationSpeed(0);
+            setAngle(getAngle());
+        } else if (pressedKeys.contains(KeyCode.ENTER)) {
+            shoot();
+        } else if (pressedKeys.isEmpty()) {
             setSpeed(0);
             setRotationSpeed(0);
         }
     }
 
+
+     int getAngle() {
+        return this.angle;
+    }
+    private int setAngle(int angle) {
+        return this.angle = angle;
+    }
+
+    @Override
+    public void onCollision(Collider collider) {
+        if (collider instanceof Bullet) {
+            System.out.println("Collision");
+        }
+    }
+
+    public void shoot(){
+        gamescene.addEntityToScene(new Bullet("sprites/bullet.png", new Size(30,30), this, 4,1));
+    }
 }

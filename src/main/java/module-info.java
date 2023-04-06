@@ -1,7 +1,8 @@
 module waterworld {
-    requires hanyaeger;
+    requires transitive hanyaeger;
 
     exports com.github.hanyaeger.tutorial;
+    exports com.github.hanyaeger.tutorial.scenes;
 
     opens audio;
     opens backgrounds;

@@ -1,6 +1,8 @@
 package com.github.hanyaeger.tutorial.scenes;
 
 import com.github.hanyaeger.api.Coordinate2D;
+import com.github.hanyaeger.api.entities.YaegerEntity;
+import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.DynamicScene;
 import com.github.hanyaeger.tutorial.Game;
 import com.github.hanyaeger.tutorial.Player;
@@ -18,7 +20,20 @@ public class GameScene extends DynamicScene {
 
     @Override
     public void setupEntities() {
-        var player = new Player(new Coordinate2D(100, 100));
+        var player = new Player(new Coordinate2D(100, 100), this);
         addEntity(player);
     }
+
+
+    public void gameOver() {
+        game.setActiveScene(0);
+    }
+
+
+    public void addEntityToScene(YaegerEntity entity) {
+        addEntity(entity);
+    }
+
+
+
 }
