@@ -13,6 +13,8 @@ import javafx.scene.input.KeyCode;
 
 import java.util.Set;
 
+
+
 public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWatcher, KeyListener, Collided {
     public int angle;
     public Bullet bullet;
@@ -32,21 +34,25 @@ public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWa
     }
     @Override
     public void onPressedKeysChange(Set<KeyCode> pressedKeys) {
-        int rotationAngle = 10;
-        double rotationAnimation = 1.35;
+        double rotationAnimation = 1;
+        double rotationTank;
+        System.out.println(getRotationSpeed());
 
         if (pressedKeys.contains(KeyCode.LEFT)) {
             setRotationSpeed(rotationAnimation);
-            setAngle(getAngle() + rotationAngle);
+            //setAngle(getAngle() + rotationIncrement);
+            applyRotation();
+            rotationTank = rotationAnimation*getFrames();
         } else if (pressedKeys.contains(KeyCode.RIGHT)) {
             setRotationSpeed(-rotationAnimation);
-            setAngle(getAngle() - rotationAngle);
+            //setAngle(getAngle() - rotationIncrement);
+            applyRotation();
         } else if (pressedKeys.contains(KeyCode.UP)) {
-            setMotion(3, getAngle());
+            setMotion(3, getRotation());
             setRotationSpeed(0);
             setAngle(getAngle());
         } else if (pressedKeys.contains(KeyCode.DOWN)) {
-            setMotion(3, getAngle());
+            setMotion(3, getRotation());
             setRotationSpeed(0);
             setAngle(getAngle());
         } else if (pressedKeys.contains(KeyCode.ENTER)) {
@@ -59,20 +65,33 @@ public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWa
 
 
      int getAngle() {
+
         return this.angle;
+
     }
     private int setAngle(int angle) {
-        return this.angle = angle;
+        this.angle = angle;
+        return 0;
     }
+
 
     @Override
     public void onCollision(Collider collider) {
         if (collider instanceof Bullet) {
-            System.out.println("Collision");
+            //System.out.println("Collision");
         }
     }
 
     public void shoot(){
-        gamescene.addEntityToScene(new Bullet("sprites/bullet.png", new Size(30,30), this, 4,1));
+        Bullet bullet = new Bullet("sprites/bullet.png", new Size(30,30), this, 4,1);
+        gamescene.addEntityToScene(bullet);
+
+    }
+    public Coordinate2D getLoopPosition() {
+        // Calculate the position of the bullet based on the angle of the player
+        var originalPosition = getAnchorLocation();
+        double offsetX = Math.cos(Math.toRadians(angle)) * getWidth() / 2;
+        double offsetY = Math.sin(Math.toRadians(angle)) * getHeight() / 2;
+        return new Coordinate2D(originalPosition.getX() + offsetX, originalPosition.getY() + offsetY);
     }
 }

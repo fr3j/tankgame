@@ -13,16 +13,19 @@ import com.github.hanyaeger.tutorial.Player;
  */
 public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorderCrossingWatcher {
     private final Player player;
-    /**
-     * Damage that is done by bullets fired by this weapon
-     */
+
     protected int damage;
+    private int bulletAngle;
+
+   public int boundaryCrossings = 0;
 
     public Bullet(String sprite, Size size, Player player, int speed, int damage) {
-        super(sprite, player.getAnchorLocation(), size);
+        super(sprite, player.getLoopPosition(), size);
         this.player = player;
         this.damage = damage;
         setMotion(speed, player.getAngle());
+        setRotate(player.getAngle());
+        bulletAngle = player.getAngle();
     }
 
 //    @Override
@@ -43,8 +46,39 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
 //        }
 //    }
 
+
+    int getAngle() {
+        return this.bulletAngle;
+    }
+    private void setAngle(int angle) {
+         this.bulletAngle = angle;
+    }
     @Override
     public void notifyBoundaryCrossing(SceneBorder border) {
-        remove();
+        // implement that the bullet bounces back when it hits the border
+
+ 
+
+        if (border == SceneBorder.LEFT || border == SceneBorder.RIGHT) {
+            setAngle(360 - bulletAngle);
+            setMotion(3, bulletAngle);
+            setRotate(getAngle());
+
+
+        } else if (border == SceneBorder.TOP || border == SceneBorder.BOTTOM) {
+            setAngle(180 - bulletAngle);
+            setMotion(3, bulletAngle);
+            setRotate(getAngle());
+        }
+        boundaryCrossings++;
     }
+    public void checkCountBoundaryCrossings() {
+        // also when the bullet hits the border for the third time it should be removed
+
+        boundaryCrossings++;
+        if (boundaryCrossings >= 3) {
+            remove();
+        }
+    }
+
 }
