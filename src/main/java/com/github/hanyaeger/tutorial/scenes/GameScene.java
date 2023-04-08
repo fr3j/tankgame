@@ -4,10 +4,12 @@ import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.entities.YaegerEntity;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.DynamicScene;
+import com.github.hanyaeger.api.scenes.TileMapContainer;
 import com.github.hanyaeger.tutorial.Game;
 import com.github.hanyaeger.tutorial.Player;
+import com.github.hanyaeger.tutorial.entities.map.WallTileMap;
 
-public class GameScene extends DynamicScene {
+public class GameScene extends DynamicScene implements TileMapContainer {
     public final Game game;
     public GameScene(Game game) {
         this.game = game;
@@ -35,5 +37,8 @@ public class GameScene extends DynamicScene {
     }
 
 
-
+    @Override
+    public void setupTileMaps() {
+        addTileMap(new WallTileMap());
+    }
 }

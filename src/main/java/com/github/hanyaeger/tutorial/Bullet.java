@@ -15,17 +15,21 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
     private final Player player;
 
     protected int damage;
-    private int bulletAngle;
+    private double bulletAngle;
 
+    private int bulletSpeed;
    public int boundaryCrossings = 0;
 
     public Bullet(String sprite, Size size, Player player, int speed, int damage) {
         super(sprite, player.getLoopPosition(), size);
         this.player = player;
         this.damage = damage;
-        setMotion(speed, player.getAngle());
-        setRotate(player.getAngle());
-        bulletAngle = player.getAngle();
+        this.bulletSpeed = speed;
+        bulletAngle = player.angle;
+        setMotion(this.bulletSpeed, bulletAngle);
+        setRotate(bulletAngle);
+        //setRotate(player.getAngle());
+
     }
 
 //    @Override
@@ -45,31 +49,23 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
 //            }
 //        }
 //    }
-
-
-    int getAngle() {
-        return this.bulletAngle;
-    }
-    private void setAngle(int angle) {
-         this.bulletAngle = angle;
-    }
+//
     @Override
     public void notifyBoundaryCrossing(SceneBorder border) {
-        // implement that the bullet bounces back when it hits the border
-
- 
-
         if (border == SceneBorder.LEFT || border == SceneBorder.RIGHT) {
-            setAngle(360 - bulletAngle);
-            setMotion(3, bulletAngle);
-            setRotate(getAngle());
-
-
+            double newAngle = -bulletAngle;
+            setRotate(newAngle);
+            setMotion(3, newAngle);
+            this.bulletAngle = newAngle;
         } else if (border == SceneBorder.TOP || border == SceneBorder.BOTTOM) {
-            setAngle(180 - bulletAngle);
-            setMotion(3, bulletAngle);
-            setRotate(getAngle());
+            double newAngle = -bulletAngle;
+            setRotate(newAngle);
+            setMotion(3, newAngle);
+            this.bulletAngle = newAngle;
         }
+
+
+
         boundaryCrossings++;
     }
     public void checkCountBoundaryCrossings() {
