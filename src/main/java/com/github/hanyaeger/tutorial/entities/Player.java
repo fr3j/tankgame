@@ -76,17 +76,16 @@ public class Player extends DynamicSpriteEntity implements SceneBorderCrossingWa
     }
     @Override
     public void onCollision(Collider collider) {
-        if (collider instanceof Bullet && collider != this) {
+        if (collider instanceof Bullet && ((Bullet) collider).getPlayer() != this) {
             remove();
-            // TODO: fix dat de bullet niet gelijk de player zelf doodmaakt
-        }
-       else if (collider instanceof Wall) {
+        } else if (collider instanceof Wall) {
             setSpeed(0);
             // TODO: fix dat de player niet door de wall heen kan
-
+        }
     }
 
-}
+
+
     public void shoot() {
         if (canShoot) {
             Bullet bullet = new Bullet("sprites/bullet.png", new Size(30, 30), this, 4, 1);

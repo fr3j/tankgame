@@ -57,5 +57,9 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         }
     }
 
+    public Player getPlayer(){
+        return player;
+    }
+
 
 }
