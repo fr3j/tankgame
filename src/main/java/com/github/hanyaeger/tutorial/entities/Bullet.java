@@ -1,12 +1,11 @@
-package com.github.hanyaeger.tutorial;
+package com.github.hanyaeger.tutorial.entities;
 
-import com.github.hanyaeger.api.Coordinate2D;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.SceneBorderCrossingWatcher;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
 import com.github.hanyaeger.api.scenes.SceneBorder;
-import com.github.hanyaeger.tutorial.Player;
+import com.github.hanyaeger.tutorial.entities.map.Wall;
 
 /**
  * The type Bullet.
@@ -29,52 +28,34 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         setMotion(this.bulletSpeed, bulletAngle);
         setRotate(bulletAngle);
         //setRotate(player.getAngle());
-
     }
 
-//    @Override
-//    public void onCollision(Collider collider) {
-//        if(collider instanceof Ship collidedShip) {
-//            if (collidedShip instanceof Enemy && weapon.owner instanceof Player) {
-//                collidedShip.takeDamage(damage);
-//                this.remove();
-//            }
-//            else if (collidedShip instanceof Player && weapon.owner instanceof Enemy){
-//                collidedShip.takeDamage(damage);
-//                this.remove();
-//            }
-//            if (collidedShip.getHealth() <= 0) {
-//                collidedShip.death();
-//
-//            }
-//        }
-//    }
-//
     @Override
     public void notifyBoundaryCrossing(SceneBorder border) {
         if (border == SceneBorder.LEFT || border == SceneBorder.RIGHT) {
-            double newAngle = -bulletAngle;
-            setRotate(newAngle);
-            setMotion(3, newAngle);
-            this.bulletAngle = newAngle;
+            mirrorAngle(0);
+            boundaryCrossings++;
         } else if (border == SceneBorder.TOP || border == SceneBorder.BOTTOM) {
-            double newAngle = -bulletAngle;
-            setRotate(newAngle);
-            setMotion(3, newAngle);
-            this.bulletAngle = newAngle;
+            mirrorAngle(180);
+            boundaryCrossings++;
         }
+        checkCountBoundaryCrossings(2);
 
-
-
-        boundaryCrossings++;
     }
-    public void checkCountBoundaryCrossings() {
+
+    public void mirrorAngle(int parameter) {
+        double newAngle = parameter-bulletAngle;
+        setRotate(newAngle);
+        setMotion(3, newAngle);
+        this.bulletAngle = newAngle;
+    }
+    public void checkCountBoundaryCrossings(int maxBoundaryCrossings) {
         // also when the bullet hits the border for the third time it should be removed
 
-        boundaryCrossings++;
-        if (boundaryCrossings >= 3) {
+        if (boundaryCrossings >= maxBoundaryCrossings) {
             remove();
         }
     }
+
 
 }

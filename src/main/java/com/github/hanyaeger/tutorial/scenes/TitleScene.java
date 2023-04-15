@@ -20,7 +20,7 @@ public class TitleScene extends StaticScene {
     @Override
     public void setupScene() {
         setBackgroundAudio("audio/8bit.mp3");
-        setBackgroundImage("backgrounds/background3.jpg");
+        setBackgroundImage("backgrounds/background.jpeg");
     }
 
     @Override
@@ -36,6 +36,7 @@ public class TitleScene extends StaticScene {
 
         var startButton = new StartButton(new Coordinate2D(getWidth() / 2, getHeight() / 2 + 100), game);
         startButton.setAnchorPoint(AnchorPoint.CENTER_CENTER);
+
         addEntity(startButton);
     }
 }
