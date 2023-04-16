@@ -11,7 +11,7 @@ import com.github.hanyaeger.tutorial.entities.map.Wall;
  * The type Bullet.
  */
 public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorderCrossingWatcher {
-    private final Player player;
+    private Player player;
 
     protected int damage;
     private double bulletAngle;
@@ -27,7 +27,6 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         bulletAngle = player.angle;
         setMotion(this.bulletSpeed, bulletAngle);
         setRotate(bulletAngle);
-        //setRotate(player.getAngle());
     }
 
     @Override
@@ -60,6 +59,7 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
     public Player getPlayer(){
         return player;
     }
+
 
 
 }

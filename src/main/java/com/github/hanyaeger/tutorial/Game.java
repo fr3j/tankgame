@@ -3,9 +3,6 @@ import com.github.hanyaeger.api.YaegerGame;
 import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.tutorial.scenes.GameScene;
 import com.github.hanyaeger.tutorial.scenes.TitleScene;
-
-import static javafx.application.Application.launch;
-
 public class Game extends YaegerGame {
     public static void main(String[] args) {
         launch(args);
