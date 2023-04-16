@@ -6,6 +6,7 @@ import com.github.hanyaeger.api.entities.Collided;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.SceneBorderCrossingWatcher;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
+import com.github.hanyaeger.api.media.SoundClip;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.api.userinput.KeyListener;
 import com.github.hanyaeger.tutorial.entities.map.Wall;
@@ -25,6 +26,8 @@ public abstract class Player extends DynamicSpriteEntity implements SceneBorderC
     private Timer shootTimer = new Timer();
     private int lives = 5;
     private Scoreboard scoreboard;
+    private Coordinate2D previousPosition;
+
 
 
     public Player(Coordinate2D location, GameScene gamescene) {
@@ -47,12 +50,12 @@ public abstract class Player extends DynamicSpriteEntity implements SceneBorderC
     @Override
     public void onCollision(Collider collider) {
         if (collider instanceof Bullet && ((Bullet) collider).getPlayer() != this) {
-            // set random location
-            setAnchorLocationX(Math.random() * getSceneWidth());
-            setAnchorLocationY(Math.random() * getSceneHeight());
             ((Bullet) collider).remove();
             lives--;
             scoreboard.setLives(lives);
+            var explosionSound = new SoundClip("audio/explosion.wav");
+            explosionSound.play();
+            setNewPlayerPosition();
             if (lives == 0) {
                 remove();
                 gamescene.gameOver();
@@ -92,6 +95,23 @@ public abstract class Player extends DynamicSpriteEntity implements SceneBorderC
 
     public int getLives() {
         return lives;
+    }
+
+    public void setNewPlayerPosition() {
+        int random = (int) (Math.random() * 4);
+        Coordinate2D newPosition = switch (random) {
+            case 0 -> new Coordinate2D(100, 100);
+            case 1 -> new Coordinate2D(100, 500);
+            case 2 -> new Coordinate2D(700, 100);
+            case 3 -> new Coordinate2D(700, 500);
+            default -> null;
+        };
+        if (newPosition.equals(previousPosition)) {
+            setNewPlayerPosition();
+        } else {
+            setAnchorLocation(newPosition);
+            previousPosition = newPosition;
+        }
     }
 
 }

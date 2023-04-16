@@ -19,7 +19,7 @@ public class GameScene extends DynamicScene implements TileMapContainer {
 
     @Override
     public void setupScene() {
-
+        setBackgroundAudio("audio/gameaudio.mp3");
     }
 
     @Override

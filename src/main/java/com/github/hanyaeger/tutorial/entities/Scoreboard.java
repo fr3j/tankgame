@@ -12,6 +12,7 @@ public class Scoreboard extends TextEntity {
         super(initialLocation);
         setFont(Font.font("Roboto", FontWeight.NORMAL, 30));
         setFill(Color.BLACK);
+        setText("Lives: " + player.getLives());
     }
 
     public void setLives(int lives) {

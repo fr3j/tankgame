@@ -4,6 +4,7 @@ import com.github.hanyaeger.api.Size;
 import com.github.hanyaeger.api.entities.Collider;
 import com.github.hanyaeger.api.entities.SceneBorderCrossingWatcher;
 import com.github.hanyaeger.api.entities.impl.DynamicSpriteEntity;
+import com.github.hanyaeger.api.media.SoundClip;
 import com.github.hanyaeger.api.scenes.SceneBorder;
 import com.github.hanyaeger.tutorial.entities.map.Wall;
 
@@ -27,6 +28,8 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         bulletAngle = player.angle;
         setMotion(this.bulletSpeed, bulletAngle);
         setRotate(bulletAngle);
+        var firesound = new SoundClip("audio/fire.wav");
+        firesound.play();
     }
 
     @Override
@@ -47,6 +50,12 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         setRotate(newAngle);
         setMotion(3, newAngle);
         this.bulletAngle = newAngle;
+        makeBounceSound();
+    }
+
+    public void makeBounceSound(){
+        var bounceSound = new SoundClip("audio/bounce.wav");
+        bounceSound.play();
     }
     public void checkCountBoundaryCrossings(int maxBoundaryCrossings) {
         // also when the bullet hits the border for the third time it should be removed
