@@ -19,6 +19,7 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
 
     private int bulletSpeed;
    public int boundaryCrossings = 0;
+   public int nrBounces = 0;
 
     public Bullet(String sprite, Size size, Player player, int speed, int damage) {
         super(sprite, player.getLoopPosition(), size);
@@ -51,6 +52,7 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         setMotion(3, newAngle);
         this.bulletAngle = newAngle;
         makeBounceSound();
+        nrBounces++;
     }
 
     public void makeBounceSound(){
@@ -63,6 +65,9 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
         if (boundaryCrossings >= maxBoundaryCrossings) {
             remove();
         }
+    }
+    public int getNrBounces(){
+        return nrBounces;
     }
 
     public Player getPlayer(){
