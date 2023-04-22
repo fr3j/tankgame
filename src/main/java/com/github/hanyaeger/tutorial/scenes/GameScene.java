@@ -24,20 +24,22 @@ public class GameScene extends DynamicScene implements TileMapContainer {
 
     @Override
     public void setupEntities() {
-        var player1 = new Player1(new Coordinate2D(100, 100), this);
-        addEntity(player1);
-        var scoreboard1 = new Scoreboard(new Coordinate2D(100, 50), player1);
+        var scoreboard1 = new Scoreboard(new Coordinate2D(100, 50));
         addEntity(scoreboard1);
-        var player2 = new Player2(new Coordinate2D(700, 500), this);
-        addEntity(player2);
-        var scoreboard2 = new Scoreboard(new Coordinate2D(700, 450), player2);
+        var player1 = new Player1(new Coordinate2D(100, 100), this, scoreboard1);
+        addEntity(player1);
+
+        var scoreboard2 = new Scoreboard(new Coordinate2D(700, 450));
         addEntity(scoreboard2);
+        var player2 = new Player2(new Coordinate2D(700, 500), this, scoreboard2);
+        addEntity(player2);
+
 
     }
 
 
     public void gameOver() {
-        game.setActiveScene(0);
+        game.setActiveScene(2);
     }
 
 

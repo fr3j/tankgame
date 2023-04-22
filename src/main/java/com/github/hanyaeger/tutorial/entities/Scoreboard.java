@@ -8,15 +8,13 @@ import javafx.scene.text.FontWeight;
 
 public class Scoreboard extends TextEntity {
 
-    public Scoreboard(Coordinate2D initialLocation, Player player) {
+    public Scoreboard(Coordinate2D initialLocation) {
         super(initialLocation);
         setFont(Font.font("Roboto", FontWeight.NORMAL, 30));
         setFill(Color.BLACK);
-        setText("Lives: " + player.getLives());
     }
 
     public void setLives(int lives) {
         setText("Lives: " + lives);
-        System.out.println("Lives: " + lives);
     }
 }

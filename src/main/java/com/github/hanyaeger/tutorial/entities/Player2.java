@@ -10,8 +10,8 @@ import java.util.Set;
 public class Player2 extends Player{
 
 
-    public Player2(Coordinate2D location, GameScene gamescene) {
-        super(location, gamescene);
+    public Player2(Coordinate2D location, GameScene gamescene, Scoreboard scoreboard) {
+        super(location, gamescene, scoreboard);
     }
 
 
@@ -35,7 +35,6 @@ public class Player2 extends Player{
             setMotion(3, angle);
 
         } else if (pressedKeys.contains(KeyCode.DOWN)) {
-            System.out.println("down");
             setMotion(3, angle + 180);
 
         } else if (pressedKeys.contains(KeyCode.ENTER)) {

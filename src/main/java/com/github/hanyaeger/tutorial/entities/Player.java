@@ -24,17 +24,17 @@ public abstract class Player extends DynamicSpriteEntity implements SceneBorderC
     double rotationIncrement = 10;
     private boolean canShoot = true;
     private Timer shootTimer = new Timer();
-    private int lives = 5;
+    private int lives = 3;
     private Scoreboard scoreboard;
     private Coordinate2D previousPosition;
 
 
 
-    public Player(Coordinate2D location, GameScene gamescene) {
+    public Player(Coordinate2D location, GameScene gamescene, Scoreboard scoreboard) {
         super("sprites/tank.png", location, new Size(40, 40));
         this.gamescene = gamescene;
         this.angle = 0;
-        this.scoreboard = new Scoreboard(location, this);
+        this.scoreboard = scoreboard;
         scoreboard.setLives(lives);
     }
 
@@ -62,7 +62,7 @@ public abstract class Player extends DynamicSpriteEntity implements SceneBorderC
             }
 
         } else if (collider instanceof Wall) {
-            setSpeed(0);
+            setSpeed(-1);
             // TODO: fix dat de player niet door de wall heen kan
         }
     }

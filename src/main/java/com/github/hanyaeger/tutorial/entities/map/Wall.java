@@ -21,7 +21,6 @@ public class Wall extends SpriteEntity implements Collided {
             // bounce the bullet
             int collisionCount = 0;
             collisionCount++;
-            System.out.println(collisionCount);
             ((Bullet) collider).mirrorAngle(180);
             // make the method only be allowed to be called once every 0.5 seconds
             }
