@@ -85,17 +85,7 @@ public abstract class Player extends DynamicSpriteEntity implements SceneBorderC
     }
 
 
-    public Coordinate2D getLoopPosition() {
-        // Calculate the position of the bullet based on the angle of the player
-        var originalPosition = getAnchorLocation();
-        double offsetX = Math.cos(Math.toRadians(angle)) * getWidth() / 2;
-        double offsetY = Math.sin(Math.toRadians(angle)) * getHeight() / 2;
-        return new Coordinate2D(originalPosition.getX() + offsetX, originalPosition.getY() + offsetY);
-    }
 
-    public int getLives() {
-        return lives;
-    }
 
     public void setNewPlayerPosition() {
         int random = (int) (Math.random() * 4);

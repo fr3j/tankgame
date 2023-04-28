@@ -22,7 +22,7 @@ public class Bullet extends DynamicSpriteEntity implements Collider, SceneBorder
    public int nrBounces = 0;
 
     public Bullet(String sprite, Size size, Player player, int speed, int damage) {
-        super(sprite, player.getLoopPosition(), size);
+        super(sprite, player.getAnchorLocation(), size);
         this.player = player;
         this.damage = damage;
         this.bulletSpeed = speed;
